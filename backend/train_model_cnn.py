@@ -44,7 +44,7 @@ print("Training samples:", X_train.shape[0])
 print("Validation samples:", X_val.shape[0])
 
 # 5. Build a CNN that won't shrink the 3-dimension to 0
-#    We'll use (3,3) conv with padding='same' and
+#    Use (3,3) conv with padding='same' and
 #    MaxPooling2D with pool_size=(2,1) so only the "landmark dimension" is halved.
 
 model = Sequential([
@@ -58,7 +58,6 @@ model = Sequential([
     Conv2D(64, (3, 3), activation='relu', padding='same'),
     MaxPooling2D(pool_size=(2, 1)),
 
-    # # Optional third conv block
     # Conv2D(128, (3, 3), activation='relu', padding='same'),
     # MaxPooling2D(pool_size=(2, 1)),
 

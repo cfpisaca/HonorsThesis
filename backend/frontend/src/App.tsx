@@ -3,6 +3,7 @@ import './App.css';
 
 function App() {
   const [recognizedText, setRecognizedText] = useState("");
+  const [selectedModel, setSelectedModel] = useState("combined");
 
   useEffect(() => {
     // Poll the backend every 1 second for the recognized text
@@ -30,6 +31,26 @@ function App() {
       .catch(error => console.error("Error clearing recognized text:", error));
   };
 
+  const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newModel = event.target.value;
+    setSelectedModel(newModel);
+
+    fetch("/set_model_type", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ model_type: newModel }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status !== "success") {
+          console.error("Failed to change model:", data.message);
+        }
+      })
+      .catch(error => console.error("Error setting model type:", error));
+  };
+
   return (
     <div>
       <header>
@@ -44,6 +65,15 @@ function App() {
         <button className="clear-btn" onClick={handleClear}>
           Clear
         </button>
+        <div className="model-selector">
+          <label htmlFor="model-select">Select Model:</label>
+          <select id="model-select" value={selectedModel} onChange={handleModelChange}>
+            <option value="mlp">MLP</option>
+            <option value="gcn">GCN</option>
+            <option value="cnn">CNN</option>
+            <option value="combined">Combined</option>
+          </select>
+        </div>
       </div>
     </div>
   );

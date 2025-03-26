@@ -20,6 +20,11 @@ export default defineConfig({
         target: 'http://127.0.0.1:5000',
         changeOrigin: true,
         secure: false
+      },
+      '/set_model_type': {
+        target: 'http://127.0.0.1:5000',
+        changeOrigin: true,
+        secure: false
       }
     }
   }

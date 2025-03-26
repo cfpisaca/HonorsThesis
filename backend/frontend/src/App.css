@@ -18,7 +18,7 @@ h1 {
 
 img {
   width: 100%;
-  max-width: 1500px;
+  max-width: 1400px;
 }
 
 .recognized-text {
@@ -31,5 +31,21 @@ img {
   margin: 1rem;
   padding: 0.5rem 1rem;
   font-size: 1em;
+  cursor: pointer;
+}
+
+.model-selector {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1em;
+}
+
+.model-selector select {
+  padding: 0.5rem 1rem;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   cursor: pointer;
 }

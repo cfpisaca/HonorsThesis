@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, jsonify
+from flask import Flask, render_template, Response, jsonify, request
 import cv2 as cv
 import mediapipe as mp
 import numpy as np
@@ -172,7 +172,7 @@ def generate_frames():
                         stable_start_time = current_time
                     else:
                         # Check if the letter has been stable for at least 0.75s
-                        if current_time - stable_start_time >= 0.85:
+                        if current_time - stable_start_time >= 0.75:
                             if stable_letter == "space":
                                 recognized_text += " "
                             elif stable_letter == "del":
@@ -231,6 +231,16 @@ def clear_text():
     global recognized_text
     recognized_text = ""
     return jsonify({'recognized_text': recognized_text})
+
+@app.route('/set_model_type', methods=['POST'])
+def set_model_type():
+    global MODEL_TYPE
+    data = request.json
+    model_type = data.get("model_type", "combined")
+    if model_type in ["mlp", "gcn", "cnn", "combined"]:
+        MODEL_TYPE = model_type
+        return jsonify({"status": "success", "model_type": MODEL_TYPE})
+    return jsonify({"status": "error", "message": "Invalid model type."}), 400
 
 # 13. Start the Flask app (debug=True, port=5000)
 if __name__ == '__main__':
